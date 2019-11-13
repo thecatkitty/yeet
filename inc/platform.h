@@ -53,6 +53,7 @@ typedef int                  BOOL;
 typedef unsigned char        BYTE;
 typedef unsigned short       WORD;
 typedef float                FLOAT;
+typedef void                 VOID;
 typedef FLOAT                *PFLOAT;
 typedef BOOL near            *PBOOL;
 typedef BOOL far             *LPBOOL;
@@ -65,8 +66,8 @@ typedef WORD far             *LPWORD;
 typedef long far             *LPLONG;
 typedef DWORD near           *PDWORD;
 typedef DWORD far            *LPDWORD;
-typedef void far             *LPVOID;
-typedef CONST void far       *LPCVOID;
+typedef VOID far             *LPVOID;
+typedef CONST VOID far       *LPCVOID;
 
 typedef int                  INT;
 typedef unsigned int         UINT;
