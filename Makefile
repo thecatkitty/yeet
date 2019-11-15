@@ -41,7 +41,8 @@ build : dirs $(OUTPUT_DIR)\$(TARGETOS)\$(OUTPUT_FILE)
 
 
 $(OUTPUT_DIR)\$(TARGETOS)\$(OUTPUT_FILE) : \
-		$(OBJS)\yeet.obj
+		$(OBJS)\yeet.obj \
+		$(OBJS)\args.obj
 	$(LINK) $(LFLAGS) $**
 
 {$(SOURCE_DIR)\}.c{$(OBJECT_DIR)\$(TARGETOS)\}.obj::
