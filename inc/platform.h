@@ -1,10 +1,12 @@
+#ifndef _PLATFORM_H_
+#define _PLATFORM_H_
+
 typedef unsigned long        ULONG;
 typedef ULONG                *PULONG;
 typedef unsigned short       USHORT;
 typedef USHORT               *PUSHORT;
 typedef unsigned char        UCHAR;
 typedef UCHAR                *PUCHAR;
-typedef char                 *PSZ;
 
 #ifndef NULL
 #define NULL                 0
@@ -72,3 +74,12 @@ typedef CONST VOID far       *LPCVOID;
 typedef int                  INT;
 typedef unsigned int         UINT;
 typedef unsigned int         *PUINT;
+
+typedef char near            *PSZ;
+typedef char far             *LPSZ;
+typedef CONST char near      *PCSZ;
+typedef CONST char far       *LPCSZ;
+
+typedef WORD                 STATUS;
+
+#endif
