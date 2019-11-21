@@ -5,15 +5,25 @@
 #include <string.h>
 
 
+#define ARGS_IS_TYPE( \
+  Descriptor, \
+  Type) \
+( \
+  ((Descriptor)->Flags & 0xF) == (Type) \
+)
+
+
 STATUS ArgsCreateContext(
   OUT LPARGS_CONTEXT *pContext,
   IN  INT            ArgC,
   IN  LPCSZ          *ArgV)
 {
+  STATUS status = EXIT_SUCCESS;
   LPARGS_CONTEXT this;
   LPVOID memory = calloc(1, sizeof(ARGS_CONTEXT));
   if (memory == NULL) {
-      return EXIT_FAILURE;
+      status = EXIT_FAILURE;
+      goto ArgsCreateContextEnd;
   }
 
   *pContext = memory;
@@ -30,19 +40,26 @@ STATUS ArgsCreateContext(
 
   this->_ArgC = ArgC;
   this->_ArgV = ArgV;
-  return EXIT_SUCCESS;
+
+ArgsCreateContextEnd:
+  return status;
 }
 
 
 STATUS ArgsCloseContext(
   IN OUT LPARGS_CONTEXT *pContext)
 {
+  STATUS status = EXIT_SUCCESS;
+
   if (pContext == NULL) {
-    return EXIT_FAILURE;
+    status = EXIT_FAILURE;
+    goto ArgsCloseContextEnd;
   }
 
   free(*pContext);
   *pContext = NULL;
+
+ArgsCloseContextEnd:
   return EXIT_SUCCESS;
 }
 
@@ -51,13 +68,16 @@ STATUS ArgsAddArgument(
   IN OUT PARGS_CONTEXT   Context,
   IN     LPARGUMENT_DESC Descriptor)
 {
+  STATUS status = EXIT_SUCCESS;
   LPARGUMENT_DESC *pDesc = &Context->_Arguments;
 
   while (*pDesc) {
     pDesc = &(*pDesc)->_Next;
   }
   *pDesc = Descriptor;
-  return EXIT_SUCCESS;
+
+ArgsAddArgumentEnd:
+  return status;
 }
 
 
@@ -65,15 +85,21 @@ STATUS ArgsParseArguments(
            IN OUT PARGS_CONTEXT Context,
   OPTIONAL    OUT PUINT         pCount)
 {
+  STATUS status = EXIT_SUCCESS;
   LPARGUMENT_DESC arg = Context->_Arguments;
 
   while (arg) {
     PSZ type =
-      (arg->Flags & 0xF) == ARGS_TYPE_BOOL ? "bool" :
-      (arg->Flags & 0xF) == ARGS_TYPE_STRING ? "string" :
-      (arg->Flags & 0xF) == ARGS_TYPE_INT ? "int" :
-      (arg->Flags & 0xF) == ARGS_TYPE_FLOAT ? "float" :
-      "unknown";
+      ARGS_IS_TYPE(arg, ARGS_TYPE_BOOL) ? "bool" :
+      ARGS_IS_TYPE(arg, ARGS_TYPE_STRING) ? "string" :
+      ARGS_IS_TYPE(arg, ARGS_TYPE_INT) ? "int" :
+      ARGS_IS_TYPE(arg, ARGS_TYPE_FLOAT) ? "float" :
+      NULL;
+
+    if (type == NULL) {
+      status = EXIT_FAILURE;
+      goto ArgsParseArgumentsEnd;
+    }
     
     printf(
       "%s\t%s\t%c\t%d\t%s\t%s\n",
@@ -87,5 +113,6 @@ STATUS ArgsParseArguments(
     arg = arg->_Next;
   }
 
-  return EXIT_SUCCESS;
+ArgsParseArgumentsEnd:
+  return status;
 }

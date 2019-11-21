@@ -8,7 +8,7 @@ INT main(
   IN INT ArgC,
   IN PSZ *ArgV)
 {
-  STATUS status;
+  STATUS status = EXIT_SUCCESS;
   LPARGS_CONTEXT args;
 
   ARGUMENT_DESC argDesc;
@@ -16,7 +16,7 @@ INT main(
 
   status = ArgsCreateContext(&args, ArgC, ArgV);
   if (status == EXIT_FAILURE) {
-    return EXIT_FAILURE;
+    goto mainEnd;
   }
 
   memset(&argDesc, 0, sizeof(ARGUMENT_DESC));
@@ -28,13 +28,17 @@ INT main(
   argDesc.Description = "Shows help";
 
   status = ArgsAddArgument(args, &argDesc);
-
-  status = ArgsParseArguments(args, NULL);
-
-  status = ArgsCloseContext(&args);
   if (status == EXIT_FAILURE) {
-    return EXIT_FAILURE;
+    goto mainEnd;
   }
 
-  return EXIT_SUCCESS;
+  status = ArgsParseArguments(args, NULL);
+  if (status == EXIT_FAILURE) {
+    goto mainEnd;
+  }
+
+  status = ArgsCloseContext(&args);
+
+mainEnd:
+  return status;
 }
