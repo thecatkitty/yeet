@@ -80,6 +80,4 @@ typedef char far             *LPSZ;
 typedef CONST char near      *PCSZ;
 typedef CONST char far       *LPCSZ;
 
-typedef WORD                 STATUS;
-
 #endif

@@ -18,11 +18,11 @@ STATUS ArgsCreateContext(
   IN  INT            ArgC,
   IN  LPCSZ          *ArgV)
 {
-  STATUS status = EXIT_SUCCESS;
+  STATUS status = STATUS_SUCCESS;
   LPARGS_CONTEXT this;
   LPVOID memory = calloc(1, sizeof(ARGS_CONTEXT));
   if (memory == NULL) {
-      status = EXIT_FAILURE;
+      status = MAKE_ERROR(ARGS_STATUS_FACILITY, STATUS_CODE_BAD_ALLOC);
       goto ArgsCreateContextEnd;
   }
 
@@ -49,10 +49,10 @@ ArgsCreateContextEnd:
 STATUS ArgsCloseContext(
   IN OUT LPARGS_CONTEXT *pContext)
 {
-  STATUS status = EXIT_SUCCESS;
+  STATUS status = STATUS_SUCCESS;
 
   if (pContext == NULL) {
-    status = EXIT_FAILURE;
+    status = MAKE_ERROR(ARGS_STATUS_FACILITY, STATUS_CODE_NULL_REFERENCE);
     goto ArgsCloseContextEnd;
   }
 
@@ -60,7 +60,7 @@ STATUS ArgsCloseContext(
   *pContext = NULL;
 
 ArgsCloseContextEnd:
-  return EXIT_SUCCESS;
+  return status;
 }
 
 
@@ -68,7 +68,7 @@ STATUS ArgsAddArgument(
   IN OUT PARGS_CONTEXT   Context,
   IN     LPARGUMENT_DESC Descriptor)
 {
-  STATUS status = EXIT_SUCCESS;
+  STATUS status = STATUS_SUCCESS;
   LPARGUMENT_DESC *pDesc = &Context->_Arguments;
 
   while (*pDesc) {
@@ -85,7 +85,7 @@ STATUS ArgsParseArguments(
            IN OUT PARGS_CONTEXT Context,
   OPTIONAL    OUT PUINT         pCount)
 {
-  STATUS status = EXIT_SUCCESS;
+  STATUS status = STATUS_SUCCESS;
   LPARGUMENT_DESC arg = Context->_Arguments;
 
   while (arg) {
@@ -97,7 +97,7 @@ STATUS ArgsParseArguments(
       NULL;
 
     if (type == NULL) {
-      status = EXIT_FAILURE;
+      status = MAKE_ERROR(ARGS_STATUS_FACILITY, ARGS_STATUS_CODE_UNKNOWN_TYPE);
       goto ArgsParseArgumentsEnd;
     }
     

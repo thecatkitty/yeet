@@ -1,7 +1,13 @@
 #ifndef _ARGS_H_
 #define _ARGS_H_
 
+#include <error.h>
 #include <platform.h>
+
+
+#define ARGS_STATUS_FACILITY 0x701
+
+#define ARGS_STATUS_CODE_UNKNOWN_TYPE 0x1000
 
 
 #define ARGS_TYPE_BOOL    0
