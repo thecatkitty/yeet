@@ -20,7 +20,6 @@ typedef struct _ARGUMENT_DESC {
   OPTIONAL IN LPCSZ   Full;
   OPTIONAL IN char    Shorthand;
   OPTIONAL IN INT     NumArgs;
-  OPTIONAL IN LPCVOID Default;
            IN LPCSZ   Description;
   OPTIONAL IN LPCSZ   Placeholder;
 

@@ -20,6 +20,7 @@ INT main(
   }
 
   memset(&argDesc, 0, sizeof(ARGUMENT_DESC));
+  helpFlag            = FALSE;
   argDesc.Destination = &helpFlag;
   argDesc.Flags       = ARGS_TYPE_BOOL;
   argDesc.Full        = "help";
