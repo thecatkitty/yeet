@@ -21,10 +21,15 @@ TARGETOS = dos
 OBJS = $(OBJECT_DIR)\$(TARGETOS)
 
 !IF "$(TARGETOS)" == "win"
+!IF DEFINED(DEBUG)
+CDFLAGS     = /Z7
+LDFLAGS     = /link /DEBUG:FULL
+!ENDIF
+
 OUTPUT_FILE = $(PROJECT_NAME).exe
 CC          = cl
 LINK        = cl
-CFLAGS      = /nologo /c /I$(INCLUDE_DIR)\ /Fo$(OBJS)\#
+CFLAGS      = /nologo /c /I$(INCLUDE_DIR)\ /Fo$(OBJS)\ $(CDFLAGS)
 LFLAGS      = /nologo /Fe$(OUTPUT_DIR)\win\$(OUTPUT_FILE)
 
 !ELSEIF "$(TARGETOS)" == "dos"
@@ -43,7 +48,7 @@ build : dirs $(OUTPUT_DIR)\$(TARGETOS)\$(OUTPUT_FILE)
 $(OUTPUT_DIR)\$(TARGETOS)\$(OUTPUT_FILE) : \
 		$(OBJS)\yeet.obj \
 		$(OBJS)\args.obj
-	$(LINK) $(LFLAGS) $**
+	$(LINK) $(LFLAGS) $** $(LDFLAGS)
 
 {$(SOURCE_DIR)\}.c{$(OBJECT_DIR)\$(TARGETOS)\}.obj::
 	$(CC) $(CFLAGS) $<
