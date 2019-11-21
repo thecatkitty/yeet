@@ -18,7 +18,7 @@ typedef struct _ARGUMENT_DESC {
            IN LPVOID  Destination;
            IN INT     Flags;
   OPTIONAL IN LPCSZ   Full;
-  OPTIONAL IN LPCSZ   Shorthand;
+  OPTIONAL IN char    Shorthand;
   OPTIONAL IN INT     NumArgs;
   OPTIONAL IN LPCVOID Default;
            IN LPCSZ   Description;
@@ -55,8 +55,8 @@ STATUS ArgsCloseContext(
   IN OUT LPARGS_CONTEXT *pContext);
 
 STATUS ArgsAddArgument(
-           IN OUT PARGS_CONTEXT   Context,
-           IN     LPARGUMENT_DESC Descriptor);
+  IN OUT PARGS_CONTEXT   Context,
+  IN     LPARGUMENT_DESC Descriptor);
 
 STATUS ArgsParseArguments(
            IN OUT PARGS_CONTEXT Context,
