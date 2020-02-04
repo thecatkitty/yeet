@@ -21,50 +21,54 @@
 
 
 typedef struct _ARGUMENT_DESC {
-           IN LPVOID  Destination;
-           IN INT     Flags;
-  OPTIONAL IN LPCSZ   Full;
-  OPTIONAL IN char    Shorthand;
-  OPTIONAL IN INT     NumArgs;
-           IN LPCSZ   Description;
-  OPTIONAL IN LPCSZ   Placeholder;
+  IN LPVOID  Destination;
+  IN INT     Flags;
+  IN LPCSZ   Full OPTIONAL;
+  IN char    Shorthand OPTIONAL;
+  IN INT     NumArgs OPTIONAL;
+  IN LPCSZ   Description;
+  IN LPCSZ   Placeholder OPTIONAL;
 
-  struct _ARGUMENT_DESC far *_Next;
-} ARGUMENT_DESC, near *PARGUMENT_DESC, far *LPARGUMENT_DESC;
+  struct _ARGUMENT_DESC FAR *_Next;
+} ARGUMENT_DESC, NEAR *PARGUMENT_DESC, FAR *LPARGUMENT_DESC;
 
 typedef struct _ARGS_CONTEXT {
-              OUT PCSZ ProgramName;
-  OPTIONAL IN     PCSZ Usage;
-  OPTIONAL IN     PCSZ Description;
-  OPTIONAL IN     PCSZ Epilog;
-  OPTIONAL IN     PCSZ PrefixChars;
-           IN OUT BOOL Help;
+     OUT PCSZ ProgramName;
+  IN     PCSZ Usage OPTIONAL;
+  IN     PCSZ Description OPTIONAL;
+  IN     PCSZ Epilog OPTIONAL;
+  IN     PCSZ PrefixChars OPTIONAL;
+  IN OUT BOOL Help;
 
   INT             _ArgC;
   LPCSZ           *_ArgV;
   LPARGUMENT_DESC _Arguments;
-} ARGS_CONTEXT, near *PARGS_CONTEXT, far *LPARGS_CONTEXT;
+} ARGS_CONTEXT, NEAR *PARGS_CONTEXT, FAR *LPARGS_CONTEXT;
 
 typedef struct _ARGS_LIST {
     LPCVOID               Value;
-    struct _ARGS_LIST far *Next;
-} ARGS_LIST, near *PARGS_LIST, far *LPARGS_LIST;
+    struct _ARGS_LIST FAR *Next;
+} ARGS_LIST, NEAR *PARGS_LIST, FAR *LPARGS_LIST;
 
 
-STATUS ArgsCreateContext(
+STATUS
+ArgsCreateContext(
   OUT LPARGS_CONTEXT *pContext,
   IN  INT            ArgC,
   IN  LPCSZ          *ArgV);
 
-STATUS ArgsCloseContext(
+STATUS
+ArgsCloseContext(
   IN OUT LPARGS_CONTEXT *pContext);
 
-STATUS ArgsAddArgument(
+STATUS
+ArgsAddArgument(
   IN OUT PARGS_CONTEXT   Context,
   IN     LPARGUMENT_DESC Descriptor);
 
-STATUS ArgsParseArguments(
-           IN OUT PARGS_CONTEXT Context,
-  OPTIONAL    OUT PUINT         pCount);
+STATUS
+ArgsParseArguments(
+  IN OUT PARGS_CONTEXT Context,
+     OUT PUINT         pCount OPTIONAL);
 
 #endif

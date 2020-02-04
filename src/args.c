@@ -13,20 +13,21 @@
 )
 
 
-STATUS ArgsCreateContext(
+STATUS
+ArgsCreateContext(
   OUT LPARGS_CONTEXT *pContext,
   IN  INT            ArgC,
   IN  LPCSZ          *ArgV)
 {
-  STATUS status = STATUS_SUCCESS;
   LPARGS_CONTEXT this;
-  LPVOID memory = calloc(1, sizeof(ARGS_CONTEXT));
-  if (memory == NULL) {
-      status = MAKE_ERROR(ARGS_STATUS_FACILITY, STATUS_CODE_BAD_ALLOC);
+  STATUS         Status = STATUS_SUCCESS;
+  LPVOID         Memory = calloc(1, sizeof(ARGS_CONTEXT));
+  if (Memory == NULL) {
+      Status = MAKE_ERROR(ARGS_STATUS_FACILITY, STATUS_CODE_BAD_ALLOC);
       goto ArgsCreateContextEnd;
   }
 
-  *pContext = memory;
+  *pContext = Memory;
 
   this = *pContext;
 
@@ -42,17 +43,18 @@ STATUS ArgsCreateContext(
   this->_ArgV = ArgV;
 
 ArgsCreateContextEnd:
-  return status;
+  return Status;
 }
 
 
-STATUS ArgsCloseContext(
+STATUS
+ArgsCloseContext(
   IN OUT LPARGS_CONTEXT *pContext)
 {
-  STATUS status = STATUS_SUCCESS;
+  STATUS Status = STATUS_SUCCESS;
 
   if (pContext == NULL) {
-    status = MAKE_ERROR(ARGS_STATUS_FACILITY, STATUS_CODE_NULL_REFERENCE);
+    Status = MAKE_ERROR(ARGS_STATUS_FACILITY, STATUS_CODE_NULL_REFERENCE);
     goto ArgsCloseContextEnd;
   }
 
@@ -60,15 +62,16 @@ STATUS ArgsCloseContext(
   *pContext = NULL;
 
 ArgsCloseContextEnd:
-  return status;
+  return Status;
 }
 
 
-STATUS ArgsAddArgument(
+STATUS
+ArgsAddArgument(
   IN OUT PARGS_CONTEXT   Context,
   IN     LPARGUMENT_DESC Descriptor)
 {
-  STATUS status = STATUS_SUCCESS;
+  STATUS          Status = STATUS_SUCCESS;
   LPARGUMENT_DESC *pDesc = &Context->_Arguments;
 
   while (*pDesc) {
@@ -77,42 +80,43 @@ STATUS ArgsAddArgument(
   *pDesc = Descriptor;
 
 ArgsAddArgumentEnd:
-  return status;
+  return Status;
 }
 
 
-STATUS ArgsParseArguments(
-           IN OUT PARGS_CONTEXT Context,
-  OPTIONAL    OUT PUINT         pCount)
+STATUS
+ArgsParseArguments(
+  IN OUT PARGS_CONTEXT Context,
+     OUT PUINT         pCount OPTIONAL)
 {
-  STATUS status = STATUS_SUCCESS;
-  LPARGUMENT_DESC arg = Context->_Arguments;
+  STATUS          Status = STATUS_SUCCESS;
+  LPARGUMENT_DESC Arg = Context->_Arguments;
 
-  while (arg) {
+  while (Arg) {
     PSZ type =
-      ARGS_IS_TYPE(arg, ARGS_TYPE_BOOL) ? "bool" :
-      ARGS_IS_TYPE(arg, ARGS_TYPE_STRING) ? "string" :
-      ARGS_IS_TYPE(arg, ARGS_TYPE_INT) ? "int" :
-      ARGS_IS_TYPE(arg, ARGS_TYPE_FLOAT) ? "float" :
+      ARGS_IS_TYPE(Arg, ARGS_TYPE_BOOL) ? "bool" :
+      ARGS_IS_TYPE(Arg, ARGS_TYPE_STRING) ? "string" :
+      ARGS_IS_TYPE(Arg, ARGS_TYPE_INT) ? "int" :
+      ARGS_IS_TYPE(Arg, ARGS_TYPE_FLOAT) ? "float" :
       NULL;
 
     if (type == NULL) {
-      status = MAKE_ERROR(ARGS_STATUS_FACILITY, ARGS_STATUS_CODE_UNKNOWN_TYPE);
+      Status = MAKE_ERROR(ARGS_STATUS_FACILITY, ARGS_STATUS_CODE_UNKNOWN_TYPE);
       goto ArgsParseArgumentsEnd;
     }
     
     printf(
       "%s\t%s\t%c\t%d\t%s\t%s\n",
       type,
-      arg->Full ? arg->Full : "",
-      arg->Shorthand ? arg->Shorthand : ' ',
-      arg->NumArgs,
-      arg->Description,
-      arg->Placeholder ? arg->Placeholder : "");
+      Arg->Full ? Arg->Full : "",
+      Arg->Shorthand ? Arg->Shorthand : ' ',
+      Arg->NumArgs,
+      Arg->Description,
+      Arg->Placeholder ? Arg->Placeholder : "");
 
-    arg = arg->_Next;
+    Arg = Arg->_Next;
   }
 
 ArgsParseArgumentsEnd:
-  return status;
+  return Status;
 }

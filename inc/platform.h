@@ -57,27 +57,27 @@ typedef unsigned short       WORD;
 typedef float                FLOAT;
 typedef void                 VOID;
 typedef FLOAT                *PFLOAT;
-typedef BOOL near            *PBOOL;
-typedef BOOL far             *LPBOOL;
-typedef BYTE near            *PBYTE;
-typedef BYTE far             *LPBYTE;
-typedef int near             *PINT;
-typedef int far              *LPINT;
-typedef WORD near            *PWORD;
-typedef WORD far             *LPWORD;
-typedef long far             *LPLONG;
-typedef DWORD near           *PDWORD;
-typedef DWORD far            *LPDWORD;
-typedef VOID far             *LPVOID;
-typedef CONST VOID far       *LPCVOID;
+typedef BOOL NEAR            *PBOOL;
+typedef BOOL FAR             *LPBOOL;
+typedef BYTE NEAR            *PBYTE;
+typedef BYTE FAR             *LPBYTE;
+typedef int NEAR             *PINT;
+typedef int FAR              *LPINT;
+typedef WORD NEAR            *PWORD;
+typedef WORD FAR             *LPWORD;
+typedef long FAR             *LPLONG;
+typedef DWORD NEAR           *PDWORD;
+typedef DWORD FAR            *LPDWORD;
+typedef VOID FAR             *LPVOID;
+typedef CONST VOID FAR       *LPCVOID;
 
 typedef int                  INT;
 typedef unsigned int         UINT;
 typedef unsigned int         *PUINT;
 
-typedef char near            *PSZ;
-typedef char far             *LPSZ;
-typedef CONST char near      *PCSZ;
-typedef CONST char far       *LPCSZ;
+typedef char NEAR            *PSZ;
+typedef char FAR             *LPSZ;
+typedef CONST char NEAR      *PCSZ;
+typedef CONST char FAR       *LPCSZ;
 
 #endif

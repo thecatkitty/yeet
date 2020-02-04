@@ -4,41 +4,41 @@
 #include <stdlib.h>
 #include <string.h>
 
-INT main(
+INT
+main(
   IN INT ArgC,
   IN PSZ *ArgV)
 {
-  STATUS status;
-  LPARGS_CONTEXT args;
+  STATUS         Status;
+  LPARGS_CONTEXT Args;
+  ARGUMENT_DESC  ArgDesc;
+  BOOL           HelpFlag;
 
-  ARGUMENT_DESC argDesc;
-  BOOL helpFlag;
-
-  status = ArgsCreateContext(&args, ArgC, ArgV);
-  if (STATUS_ERROR(status)) {
+  Status = ArgsCreateContext(&Args, ArgC, ArgV);
+  if (STATUS_ERROR(Status)) {
     goto mainEnd;
   }
 
-  memset(&argDesc, 0, sizeof(ARGUMENT_DESC));
-  helpFlag            = FALSE;
-  argDesc.Destination = &helpFlag;
-  argDesc.Flags       = ARGS_TYPE_BOOL;
-  argDesc.Full        = "help";
-  argDesc.Shorthand   = 'h';
-  argDesc.Description = "Shows help";
+  memset(&ArgDesc, 0, sizeof(ARGUMENT_DESC));
+  HelpFlag            = FALSE;
+  ArgDesc.Destination = &HelpFlag;
+  ArgDesc.Flags       = ARGS_TYPE_BOOL;
+  ArgDesc.Full        = "help";
+  ArgDesc.Shorthand   = 'h';
+  ArgDesc.Description = "Shows help";
 
-  status = ArgsAddArgument(args, &argDesc);
-  if (STATUS_ERROR(status)) {
+  Status = ArgsAddArgument(Args, &ArgDesc);
+  if (STATUS_ERROR(Status)) {
     goto mainEnd;
   }
 
-  status = ArgsParseArguments(args, NULL);
-  if (STATUS_ERROR(status)) {
+  Status = ArgsParseArguments(Args, NULL);
+  if (STATUS_ERROR(Status)) {
     goto mainEnd;
   }
 
-  status = ArgsCloseContext(&args);
+  Status = ArgsCloseContext(&Args);
 
 mainEnd:
-  return STATUS_ERROR(status) ? status : 0;
+  return STATUS_ERROR(Status) ? Status : 0;
 }
